@@ -98,6 +98,14 @@ async function updateUser(request, response, next) {
     const name = request.body.name;
     const email = request.body.email;
 
+    const emailexist = await usersService.mengecekEmail2(email);
+    if (emailexist){
+      throw errorResponder(
+        errorTypes.EMAIL_ALREADY_TAKEN,
+        'Email sudah terdaftar'
+      )
+    }
+
     const success = await usersService.updateUser(id, name, email);
     if (!success) {
       throw errorResponder(
