@@ -50,6 +50,7 @@ async function createUser(request, response, next) {
     const name = request.body.name;
     const email = request.body.email;
     const password = request.body.password;
+    const confirmPassword = request.body.confirmPassword;
 
     const emailexist = await usersService.mengecekEmail2(email);
     if (emailexist){
@@ -58,7 +59,17 @@ async function createUser(request, response, next) {
         'Email sudah terdaftar'
       )
     }
-    
+
+    const pw = await password;
+    const pwconfirm = await confirmPassword;
+    if (pwconfirm!=pw){
+      throw errorResponder(
+        errorTypes.INVALID_PASSWORD,
+        'salah masukkan password'
+      )
+    }
+
+
     const success = await usersService.createUser(name, email, password);
     if (!success) {
       throw errorResponder(
