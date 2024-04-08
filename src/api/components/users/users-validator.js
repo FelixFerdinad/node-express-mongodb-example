@@ -16,4 +16,15 @@ module.exports = {
       email: joi.string().email().required().label('Email'),
     },
   },
+
+  updatepw: {
+    body:{
+      password_lama: joi.string().min(6).max(32).required().label('password lama'),
+      password_baru: joi.string().min(6).max(32).required().label('password baru'),
+      password_cek: joi.string().min(6).max(32).required().label('password cek'),
+  
+    }
+  }
+
+
 };

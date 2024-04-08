@@ -1,5 +1,6 @@
 const usersService = require('./users-service');
 const { errorResponder, errorTypes } = require('../../../core/errors');
+const usersSchema = require('../../../models/users-schema');
 
 /**
  * Handle get list of users request
@@ -136,10 +137,54 @@ async function deleteUser(request, response, next) {
   }
 }
 
+// fungsi untuk mengubah password
+async function changepw (request, reponse, next){
+  try {
+    const id = request.params.id; 
+    const password_lama = request.body.password_lama;
+    const password_baru = request.body.password_baru;
+    const password_cek = request.body.password_cek;
+
+
+    const cekpasslama = await usersService.cekPassLama(id,password_lama);
+    if (cekpasslama === false){
+      throw errorResponder(
+        errorTypes.INVALID_PASSWORD,'password lama salah'
+      )
+    }
+
+    if (password_cek != password_baru){
+      throw errorResponder(
+        errorTypes.INVALID_PASSWORD,
+        'salah masukkan password baru'
+      )
+    }
+
+    password_changed = password_baru;
+    const success = await usersService.updatepw(id, password_changed);
+    if (!success){
+      throw errorResponder (
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'gagal membuat user'
+      );
+
+    }
+    return reponse.status(200).json({id});
+  } catch (error){
+  return next (error);
+  }
+
+}
+
+
+
+
+
 module.exports = {
   getUsers,
   getUser,
   createUser,
   updateUser,
   deleteUser,
+  changepw,
 };

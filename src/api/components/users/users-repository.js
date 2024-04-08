@@ -73,6 +73,18 @@ async function mengecekEmail (email) {
 }
 
 
+async function changePass (id, newPass){
+  return User.updateOne(
+    {
+      _id : id,
+    },
+    {
+      $set:{newPass,},
+    }
+  );
+}
+
+
 module.exports = {
   getUsers,
   getUser,
@@ -80,4 +92,5 @@ module.exports = {
   updateUser,
   deleteUser,
   mengecekEmail,
+  changePass,
 };
