@@ -62,10 +62,22 @@ async function deleteUser(id) {
   return User.deleteOne({ _id: id });
 }
 
+ // async itu fungsi sembarang 
+async function mengecekEmail (email) {
+  // mengecek email apakah sudah terdaftar di database atau belum
+
+  // kenapa ({email:email}) karena email pertama ada di database lalu email kedua dari parameter 
+  const emails = await User.findOne({email:email});
+  // untuk mengembalikan boolean, false jika email tidak ada di database true jika email ada
+  return !!emails;
+}
+
+
 module.exports = {
   getUsers,
   getUser,
   createUser,
   updateUser,
   deleteUser,
+  mengecekEmail,
 };

@@ -51,6 +51,14 @@ async function createUser(request, response, next) {
     const email = request.body.email;
     const password = request.body.password;
 
+    const emailexist = await usersService.mengecekEmail2(email);
+    if (emailexist){
+      throw errorResponder(
+        errorTypes.EMAIL_ALREADY_TAKEN,
+        'Email sudah terdaftar'
+      )
+    }
+    
     const success = await usersService.createUser(name, email, password);
     if (!success) {
       throw errorResponder(

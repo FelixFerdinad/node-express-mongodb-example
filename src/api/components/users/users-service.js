@@ -107,10 +107,32 @@ async function deleteUser(id) {
   return true;
 }
 
+
+// memanggil fungsi mengecekEmail pada users-repository
+
+// async itu fungsi sembarang
+async function mengecekEmail2(email){
+  try {
+    const cekEmail = await usersRepository.mengecekEmail(email);
+    if (cekEmail){
+      return true;
+    }
+    else {
+      return false;
+    }
+  } // kalau pakai fungsi try harus ada catch untuk return error
+    catch (error){
+    console.error('gagal untuk mengecek email:',error);
+    return false;
+  }
+}
+
+
 module.exports = {
   getUsers,
   getUser,
   createUser,
   updateUser,
   deleteUser,
+  mengecekEmail2,
 };
