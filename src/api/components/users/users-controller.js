@@ -184,10 +184,6 @@ async function changepw (request, reponse, next){
 
 }
 
-
-
-
-
 module.exports = {
   getUsers,
   getUser,
